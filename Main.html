@@ -279,7 +279,9 @@
 
           stylers: [
 
-            { color: '#19a0d8' }
+            {
+              color: '#19a0d8'
+            }
 
           ]
         }, {
@@ -290,9 +292,13 @@
 
           stylers: [
 
-            { color: '#ffffff' },
+            {
+              color: '#ffffff'
+            },
 
-            { weight: 6 }
+            {
+              weight: 6
+            }
           ]
 
         }, {
@@ -303,7 +309,9 @@
 
           stylers: [
 
-            { color: '#e85113' }
+            {
+              color: '#e85113'
+            }
           ]
         }, {
 
@@ -313,9 +321,13 @@
 
           stylers: [
 
-            { color: '#efe9e4' },
+            {
+              color: '#efe9e4'
+            },
 
-            { lightness: -40 }
+            {
+              lightness: -40
+            }
           ]
 
         }, {
@@ -324,9 +336,13 @@
 
           stylers: [
 
-            { weight: 9 },
+            {
+              weight: 9
+            },
 
-            { hue: '#e85113' }
+            {
+              hue: '#e85113'
+            }
           ]
 
         }, {
@@ -337,7 +353,9 @@
 
           stylers: [
 
-            { visibility: 'off' }
+            {
+              visibility: 'off'
+            }
           ]
 
         }, {
@@ -348,7 +366,9 @@
 
           stylers: [
 
-            { lightness: 100 }
+            {
+              lightness: 100
+            }
           ]
 
         }, {
@@ -359,7 +379,9 @@
 
           stylers: [
 
-            { lightness: -100 }
+            {
+              lightness: -100
+            }
           ]
 
         }, {
@@ -370,9 +392,13 @@
 
           stylers: [
 
-            { visibility: 'on' },
+            {
+              visibility: 'on'
+            },
 
-            { color: '#f0e4d3' }
+            {
+              color: '#f0e4d3'
+            }
           ]
 
         }, {
@@ -381,10 +407,13 @@
 
           elementType: 'geometry.fill',
 
-          stylers: [
-            { color: '#efe9e4' },
+          stylers: [{
+              color: '#efe9e4'
+            },
 
-            { lightness: -25 }
+            {
+              lightness: -25
+            }
           ]
         }
       ];
@@ -394,7 +423,10 @@
 
       map = new google.maps.Map(document.getElementById('map'), {
 
-        center: { lat: 36.1116122, lng: -115.173107 },
+        center: {
+          lat: 36.1116122,
+          lng: -115.173107
+        },
 
         zoom: 13,
 
@@ -435,18 +467,67 @@
 
       var locations = [
 
-        { title: 'Paris Las Vegas', location: { lat: 36.1125414, lng: -115.1728592 }, id: 'Casino' },
+        {
+          title: 'Paris Las Vegas',
+          location: {
+            lat: 36.1125414,
+            lng: -115.1728592
+          },
+          serviceType: "Casino"
+        },
 
-        { title: 'Planet Hollywood Resort & Casino', location: { lat: 36.1099696, lng: -115.1722533 }, id: 'Casino' },
+        {
+          title: 'Planet Hollywood Resort & Casino',
+          location: {
+            lat: 36.1099696,
+            lng: -115.1722533
+          },
+          serviceType: "Casino"
+        },
 
-        { title: 'ARIA Resort & Casino Las Vegas', location: { lat: 36.1072611, lng: -115.1758354 }, id: 'Casino' },
+        {
+          title: 'ARIA Resort & Casino Las Vegas',
+          location: {
+            lat: 36.1072611,
+            lng: -115.1758354
+          },
+          serviceType: "Casino"
+        },
 
-        { title: 'Ellis Island Casino & Brewery', location: { lat: 36.113063, lng: -115.1656757 }, id: 'Casino' },
+        {
+          title: 'Ellis Island Casino & Brewery',
+          location: {
+            lat: 36.113063,
+            lng: -115.1656757
+          },
+          serviceType: "Casino"
+        },
 
-        { title: 'The Mirage', location: { lat: 36.1211957, lng: -115.1762622 }, id: 'Casino' },
-        { title: 'The Cheesecake Factory', location: { lat: 36.1192575, lng: -115.1787052 }, id: 'Food' },
+        {
+          title: 'The Mirage',
+          location: {
+            lat: 36.1211957,
+            lng: -115.1762622
+          },
+          serviceType: "Casino"
+        },
+        {
+          title: 'The Cheesecake Factory',
+          location: {
+            lat: 36.1192575,
+            lng: -115.1787052
+          },
+          serviceType: "Food"
+        },
 
-        { title: 'Bacchanal Buffet', location: { lat: 36.117746, lng: -115.1781976 }, id: 'Food' }
+        {
+          title: 'Bacchanal Buffet',
+          location: {
+            lat: 36.117746,
+            lng: -115.1781976
+          },
+          serviceType: "Food"
+        }
       ];
 
 
@@ -511,7 +592,9 @@
       }
 
       for (var i = 0; i < locations.length; i++)
-        document.getElementById(i).addEventListener('click', function () { locationClick(this.id); });
+        document.getElementById(i).addEventListener('click', function () {
+          locationClick(this.id);
+        });
 
 
 
@@ -525,13 +608,12 @@
 
       // The following group uses the location array to create an array of markers on initialize
 
-      for (var i = 0; i < locations.length; i++) {
-
+      for (let location of locations) {
         // Get the position from the location array
 
-        var position = locations[i].location;
+        var position = location.location;
 
-        var title = locations[i].title;
+        var title = title;
 
         // Create a marker per location, and put into markers array
         var marker = new google.maps.Marker({
@@ -546,11 +628,11 @@
 
           id: i
         });
-
-        showListings();
-        // Push the marker to our array of markers
+        marker.enabled = true;
+        marker.serviceType = location.serviceType;
 
         markers.push(marker);
+
 
         // Create an onclick event to open the large infowindow at each marker
 
@@ -571,6 +653,8 @@
           this.setIcon(defaultIcon);
         });
       }
+      showListings();
+      // Push the marker to our array of markers       
 
       document.getElementById('show-listings').addEventListener('click', showListings);
 
@@ -754,8 +838,10 @@
 
       // Extend the boundaries of the map for each marker and display the marker
       for (var i = 0; i < markers.length; i++) {
-
-        markers[i].setMap(map);
+        var marker = markers[i];
+        if (marker.enabled) {
+          marker.setMap(map);
+        }
 
         bounds.extend(markers[i].position);
       }
@@ -870,27 +956,28 @@
 
         // on it and zoom in
 
-        geocoder.geocode(
-          {
-            address: address,
+        geocoder.geocode({
+          address: address,
 
-            componentRestrictions: { locality: 'New York' }
+          componentRestrictions: {
+            locality: 'New York'
+          }
 
-          }, function (results, status) {
+        }, function (results, status) {
 
-            if (status == google.maps.GeocoderStatus.OK) {
+          if (status == google.maps.GeocoderStatus.OK) {
 
-              map.setCenter(results[0].geometry.location);
+            map.setCenter(results[0].geometry.location);
 
-              map.setZoom(15);
+            map.setZoom(15);
 
-            } else {
+          } else {
 
-              window.alert('We could not find that location - try entering a more' +
-                ' specific place.');
+            window.alert('We could not find that location - try entering a more' +
+              ' specific place.');
 
-            }
-          });
+          }
+        });
       }
     }
 
@@ -1023,8 +1110,8 @@
               var infowindow = new google.maps.InfoWindow({
 
                 content: durationText + ' away, ' + distanceText +
-                '<div><input type=\"button\" value=\"View Route\" onclick =' +
-                '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
+                  '<div><input type=\"button\" value=\"View Route\" onclick =' +
+                  '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
 
               });
 
@@ -1057,7 +1144,7 @@
 
 
     // Make an array for the filter function
-    var FilterFoodMarkers = [];   //placeMarkers 
+    var FilterFoodMarkers = []; //placeMarkers 
     var FilterCasinoMarkers = [];
 
     //FilterFoodMarkers.push(marker);
@@ -1078,23 +1165,37 @@
     //    }
 
 
-    document.getElementById('go-filter').addEventListener('click', FilterMarkers);   //send markers.id = "Food"  ?    
+    document.getElementById('go-filter').addEventListener('click', FilterMarkers); //send markers.id = "Food"  ?    
     function FilterMarkers() {
 
-      var filter2 = document.getElementById('filter').value;
-
+      var filter2 = document.getElementById('filter').value;      
       if (filter2 == 'Food') {
 
-        //  hideMarkers(FilterCasinoMarkers); 
-        window.alert('You must enter an address.');
+        for (let marker of markers) {
+          if (marker.serviceType != "Food") {
+            marker.enabled = false;
+            marker.setMap(null);
+          } else {
+            marker.enabled = true;
+          }
+        }
+      } else if (filter2 == 'Casino') {
 
+        for (let marker of markers) {
+          if (marker.serviceType != "Casino") {
+            marker.enabled = false;
+            marker.setMap(null);
+          } else {
+            marker.enabled = true;
+          }
+        }
+      } else if (filter2 == 'Select') {
 
-      } else {
-        hideMarkers(markers);
-
-        //hideMarkers(FilterFoodMarkers);
-
+        for (let marker of markers) {
+          marker.enabled = true;
+        }
       }
+      showListings();
     }
 
     function displayDirections(origin) {
@@ -1305,8 +1406,10 @@
               place.opening_hours.weekday_text[6];
           }
           if (place.photos) {
-            innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
-              { maxHeight: 100, maxWidth: 200 }) + '">';
+            innerHTML += '<br><br><img src="' + place.photos[0].getUrl({
+              maxHeight: 100,
+              maxWidth: 200
+            }) + '">';
           }
           innerHTML += '</div>';
           infowindow.setContent(innerHTML);
@@ -1321,7 +1424,6 @@
   </script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap">
-
   </script>
 
 </body>
