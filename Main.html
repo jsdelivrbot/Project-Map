@@ -266,7 +266,6 @@
 
     var placeMarkers = [];
 
-
     function initMap() {
 
       // Create a styles array to use with the map
@@ -1168,7 +1167,7 @@
     document.getElementById('go-filter').addEventListener('click', FilterMarkers); //send markers.id = "Food"  ?    
     function FilterMarkers() {
 
-      var filter2 = document.getElementById('filter').value;      
+      var filter2 = document.getElementById('filter').value;
       if (filter2 == 'Food') {
 
         for (let marker of markers) {
@@ -1421,6 +1420,35 @@
         }
       });
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var xhttp = new XMLHttpRequest();
+      var yelpBaseurl = "https://api.yelp.com/oauth2/token";
+      var yelpParams = "";
+      xhttp.open("Post", yelpBaseurl, true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send(
+        "grant_type=client_credentials&client_id=iaRX4joOJIg9Da3oMz_raw&client_secret=ZACyDM68ze0l7H0AWWvkfvVyezfWEFSPIOOCCfgywawXjvKudecJE56SwgKFFb02"
+      );
+      xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          var response = JSON.parse(xhttp.responseText);
+          console.log(response);
+          var xhttp1 = new XMLHttpRequest();
+          var yelpBaseurl = "https://www.yelp.com/developers/documentation/v3/business_reviews";
+          xhttp1.open("Get", yelpBaseurl, true);
+          xhttp1.setRequestHeader("Content-type", "application/json");
+          xhttp1.setRequestHeader("Authorisation", "Bearer "+response.access_token);
+          xhttp1.send(null);
+          xhttp1.onreadystatechange = function () {
+            if (xhttp1.readyState == 4 && xhttp1.status == 200) {
+              var searchResponse = JSON.parse(xhttp1.responseText);
+              console.log(searchResponse);
+            }
+          }          
+        }
+      }
+    });
   </script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap">
