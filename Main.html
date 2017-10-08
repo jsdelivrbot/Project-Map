@@ -472,7 +472,8 @@
             lat: 36.1125414,
             lng: -115.1728592
           },
-          serviceType: "Casino"
+          serviceType: "Casino",
+          yelpId: "paris-las-vegas-hotel-and-casino-las-vegas"
         },
 
         {
@@ -481,7 +482,8 @@
             lat: 36.1099696,
             lng: -115.1722533
           },
-          serviceType: "Casino"
+          serviceType: "Casino",
+          yelpId: "planet-hollywood-las-vegas-resort-and-casino-las-vegas"
         },
 
         {
@@ -490,7 +492,8 @@
             lat: 36.1072611,
             lng: -115.1758354
           },
-          serviceType: "Casino"
+          serviceType: "Casino",
+          yelpId: "aria-resort-and-casino-las-vegas-5"
         },
 
         {
@@ -499,7 +502,8 @@
             lat: 36.113063,
             lng: -115.1656757
           },
-          serviceType: "Casino"
+          serviceType: "Casino",
+          yelpId: "ellis-island-hotel-casino-and-brewery-las-vegas"
         },
 
         {
@@ -508,7 +512,8 @@
             lat: 36.1211957,
             lng: -115.1762622
           },
-          serviceType: "Casino"
+          serviceType: "Casino",
+          yelpId: "the-mirage-las-vegas-3"
         },
         {
           title: 'The Cheesecake Factory',
@@ -516,7 +521,8 @@
             lat: 36.1192575,
             lng: -115.1787052
           },
-          serviceType: "Food"
+          serviceType: "Food",
+          yelpId: "The+Cheesecake+Factory"
         },
 
         {
@@ -525,9 +531,12 @@
             lat: 36.117746,
             lng: -115.1781976
           },
-          serviceType: "Food"
+          serviceType: "Food",
+          yelpId: "bacchanal-buffet-las-vegas-7"
         }
       ];
+
+      yelpReviews = {};
 
 
       var largeInfowindow = new google.maps.InfoWindow();
@@ -563,9 +572,10 @@
       var highlightedIcon = makeMarkerIcon('FFFF24');
 
 
-      function locationClick(position) {
+      function locationClick(obj) {
+        var position = obj.id;
         marker = markers[position];
-        populateInfoWindow(marker, largeInfowindow);
+        populateInfoWindow(marker, largeInfowindow, obj.getAttribute("yelpId"));
       }
 
 
@@ -580,6 +590,7 @@
         var locationButton = document.createElement("button");
         locationButton.id = i;
         locationButton.innerHTML = title;
+        locationButton.setAttribute("yelpId", locations[i].yelpId);
 
 
         // 2. Append somewhere
@@ -592,7 +603,7 @@
 
       for (var i = 0; i < locations.length; i++)
         document.getElementById(i).addEventListener('click', function () {
-          locationClick(this.id);
+          locationClick(this);
         });
 
 
@@ -612,14 +623,12 @@
 
         var position = location.location;
 
-        var title = title;
-
         // Create a marker per location, and put into markers array
         var marker = new google.maps.Marker({
 
           position: position,
 
-          title: title,
+          title: location.title,
 
           animation: google.maps.Animation.DROP,
 
@@ -746,7 +755,7 @@
     // one infowindow which will open at the marker that is clicked, and populate based
     // on that markers position
 
-    function populateInfoWindow(marker, infowindow) {
+    function populateInfoWindow(marker, infowindow, yelpId) {
 
       if (marker.getAnimation() !== null) {
         marker.setAnimation(null);
@@ -787,11 +796,14 @@
 
             var nearStreetViewLocation = data.location.latLng;
 
-            var heading = google.maps.geometry.spherical.computeHeading(
+            var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
 
-              nearStreetViewLocation, marker.position);
-
-            infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+            var infoWindowContent = '<div>' + marker.title + '</div><div id="pano"></div><div id="yelpReviews"><ul>';
+            for (var review of yelpReviews[yelpId]) {
+              infoWindowContent+=`<li>${review.text}</li>`;
+            }
+            infoWindowContent+="</ul></div>";
+            infowindow.setContent(infoWindowContent);
 
             var panoramaOptions = {
 
@@ -810,8 +822,12 @@
               document.getElementById('pano'), panoramaOptions);
 
           } else {
-
-            infowindow.setContent('<div>' + marker.title + '</div>' + '<div>No Street View Found</div>');
+            var infoWindowContent = '<div>' + marker.title + '</div>' + '<div>No Street View Found</div><div id="yelpReviews"><ul>';
+            for (var review of yelpReviews[yelpId]) {
+              infoWindowContent+=`<li>${review.text}</li>`;
+            }
+            infoWindowContent+="</ul></div>";
+            infowindow.setContent(infoWindowContent);
 
           }
         }
@@ -824,7 +840,6 @@
         // Open the infowindow on the correct marker
 
         infowindow.open(map, marker);
-
       }
     }
 
@@ -1434,21 +1449,32 @@
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           var response = JSON.parse(xhttp.responseText);
           console.log(response);
-          var xhttp1 = new XMLHttpRequest();
-          var yelpBaseurl = "https://www.yelp.com/developers/documentation/v3/business_reviews";
-          xhttp1.open("Get", yelpBaseurl, true);
-          xhttp1.setRequestHeader("Content-type", "application/json");
-          xhttp1.setRequestHeader("Authorisation", "Bearer "+response.access_token);
-          xhttp1.send(null);
-          xhttp1.onreadystatechange = function () {
-            if (xhttp1.readyState == 4 && xhttp1.status == 200) {
-              var searchResponse = JSON.parse(xhttp1.responseText);
-              console.log(searchResponse);
-            }
-          }          
+          populateYelpReviews("paris-las-vegas-hotel-and-casino-las-vegas", response.access_token);
+          populateYelpReviews("planet-hollywood-las-vegas-resort-and-casino-las-vegas", response.access_token);
+          populateYelpReviews("aria-resort-and-casino-las-vegas-5", response.access_token);
+          populateYelpReviews("ellis-island-hotel-casino-and-brewery-las-vegas", response.access_token);
+          populateYelpReviews("the-mirage-las-vegas-3", response.access_token);
+          populateYelpReviews("The+Cheesecake+Factory", response.access_token);
+          populateYelpReviews("bacchanal-buffet-las-vegas-7", response.access_token);
         }
       }
     });
+
+    function populateYelpReviews(yelpId, accessToken) {
+      var yelpBaseurl = `https://api.yelp.com/v3/businesses/${yelpId}/reviews`;
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("Get", yelpBaseurl, true);
+      xhttp.setRequestHeader("Content-type", "application/json");
+      xhttp.setRequestHeader("Authorization", "Bearer " + accessToken);
+      xhttp.send(null);
+      xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          var searchResponse = JSON.parse(xhttp.responseText);
+          yelpReviews[yelpId] = searchResponse.reviews;
+          console.log(yelpReviews);
+        }
+      }
+    }
   </script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap">
