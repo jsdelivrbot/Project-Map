@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var router = express.Router;
 var request = require("request");
 
