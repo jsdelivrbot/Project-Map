@@ -1190,6 +1190,11 @@ function getPlacesDetails(marker, infowindow) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    var testTitleModel = {
+        PageTitle : "Find the best casino"      
+    };
+    ko.applyBindings(testTitleModel);
+    
     populateYelpReviews("paris-las-vegas-hotel-and-casino-las-vegas");
     populateYelpReviews("planet-hollywood-las-vegas-resort-and-casino-las-vegas");
     populateYelpReviews("aria-resort-and-casino-las-vegas-5");
