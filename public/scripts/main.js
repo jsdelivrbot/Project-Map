@@ -334,13 +334,11 @@ function initMap() {
 
     var highlightedIcon = makeMarkerIcon('FFFF24');
 
-
-    function locationClick(obj) {
+    locationWrapperInner = function(obj){
         var position = obj.id;
         marker = markers[position];
         populateInfoWindow(marker, largeInfowindow, obj.getAttribute("yelpId"));
     }
-
 
     for (var i = 0; i < locations.length; i++) {
 
@@ -1213,4 +1211,9 @@ function populateYelpReviews(yelpId) {
             yelpReviews[yelpId] = searchResponse.reviews;
         }
     }
+}
+
+var locationWrapperInner = function(){};
+function locationClickWrapper(obj){
+    locationWrapperInner(obj);
 }
