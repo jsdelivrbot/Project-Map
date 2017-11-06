@@ -3,7 +3,92 @@ var map;
 
 // Create a new blank array for all the listing markers.
 var markers = [];
-
+var locations = [
+        {                        
+            title: 'Paris Las Vegas',
+            location: {
+                lat: 36.1125414,
+                lng: -115.1728592
+            },
+            serviceType: "Casino",
+            attributes: {
+                id:0,
+                yelpId: "paris-las-vegas-hotel-and-casino-las-vegas"
+            }            
+        },
+        {            
+            title: 'Planet Hollywood Resort & Casino',
+            location: {
+                lat: 36.1099696,
+                lng: -115.1722533
+            },
+            serviceType: "Casino",
+            attributes: {
+                id:1,
+                yelpId: "planet-hollywood-las-vegas-resort-and-casino-las-vegas"
+            }
+        },
+        {            
+            title: 'ARIA Resort & Casino Las Vegas',
+            location: {
+                lat: 36.1072611,
+                lng: -115.1758354
+            },
+            serviceType: "Casino",
+            attributes: {
+                id:2,
+                yelpId: "aria-resort-and-casino-las-vegas-5"
+            }
+        },
+        {            
+            title: 'Ellis Island Casino & Brewery',
+            location: {
+                lat: 36.113063,
+                lng: -115.1656757
+            },
+            serviceType: "Casino",
+            attributes: {
+                id:3,
+                yelpId: "ellis-island-hotel-casino-and-brewery-las-vegas"
+            }
+        },
+        {            
+            title: 'The Mirage',
+            location: {
+                lat: 36.1211957,
+                lng: -115.1762622
+            },
+            serviceType: "Casino",
+            attributes: {
+                id:4,
+                yelpId: "the-mirage-las-vegas-3"
+            }
+        },
+        {            
+            title: 'The Cheesecake Factory',
+            location: {
+                lat: 36.1192575,
+                lng: -115.1787052
+            },
+            serviceType: "Food",
+            attributes: {
+                id:5,
+                yelpId: "The+Cheesecake+Factory"
+            }
+        },
+        {            
+            title: 'Bacchanal Buffet',
+            location: {
+                lat: 36.117746,
+                lng: -115.1781976
+            },
+            serviceType: "Food",
+            attributes: {
+                id:6,
+                yelpId: "bacchanal-buffet-las-vegas-7"
+            }
+        }
+    ];
 
 var titles = [];
 
@@ -214,81 +299,6 @@ function initMap() {
 
     searchBox.setBounds(map.getBounds());
 
-
-    // These are the real estate listings that will be shown to the user
-
-    var locations = [
-
-        {
-            title: 'Paris Las Vegas',
-            location: {
-                lat: 36.1125414,
-                lng: -115.1728592
-            },
-            serviceType: "Casino",
-            yelpId: "paris-las-vegas-hotel-and-casino-las-vegas"
-        },
-
-        {
-            title: 'Planet Hollywood Resort & Casino',
-            location: {
-                lat: 36.1099696,
-                lng: -115.1722533
-            },
-            serviceType: "Casino",
-            yelpId: "planet-hollywood-las-vegas-resort-and-casino-las-vegas"
-        },
-
-        {
-            title: 'ARIA Resort & Casino Las Vegas',
-            location: {
-                lat: 36.1072611,
-                lng: -115.1758354
-            },
-            serviceType: "Casino",
-            yelpId: "aria-resort-and-casino-las-vegas-5"
-        },
-
-        {
-            title: 'Ellis Island Casino & Brewery',
-            location: {
-                lat: 36.113063,
-                lng: -115.1656757
-            },
-            serviceType: "Casino",
-            yelpId: "ellis-island-hotel-casino-and-brewery-las-vegas"
-        },
-
-        {
-            title: 'The Mirage',
-            location: {
-                lat: 36.1211957,
-                lng: -115.1762622
-            },
-            serviceType: "Casino",
-            yelpId: "the-mirage-las-vegas-3"
-        },
-        {
-            title: 'The Cheesecake Factory',
-            location: {
-                lat: 36.1192575,
-                lng: -115.1787052
-            },
-            serviceType: "Food",
-            yelpId: "The+Cheesecake+Factory"
-        },
-
-        {
-            title: 'Bacchanal Buffet',
-            location: {
-                lat: 36.117746,
-                lng: -115.1781976
-            },
-            serviceType: "Food",
-            yelpId: "bacchanal-buffet-las-vegas-7"
-        }
-    ];
-
     yelpReviews = {};
 
 
@@ -347,17 +357,17 @@ function initMap() {
 
 
         // 2. Append somewhere
-        var body = document.getElementById("listing");
-        body.appendChild(locationButton);
-        body.innerHTML += "<br>";
+        // var body = document.getElementById("listing");
+        // body.appendChild(locationButton);
+        // body.innerHTML += "<br>";
 
 
     }
 
-    for (var i = 0; i < locations.length; i++)
-        document.getElementById(i).addEventListener('click', function () {
-            locationClick(this);
-        });
+    // for (var i = 0; i < locations.length; i++)
+    //     document.getElementById(i).addEventListener('click', function () {
+    //         locationClick(this);
+    //     });
 
 
 
@@ -696,23 +706,16 @@ function searchWithinPolygon() {
 
 
 // This function takes the input value in the find nearby area text input
-
 // locates it, and then zooms into that area. This is so that the user can
-
 // show all listings, then decide to focus on one area of the map
-
 function zoomToArea() {
-
     // Initialize the geocoder
-
     var geocoder = new google.maps.Geocoder();
 
     // Get the address or place that the user entered
-
     var address = document.getElementById('zoom-to-area-text').value;
 
     // Make sure the address isn't blank
-
     if (address == '') {
 
         window.alert('You must enter an area, or address.');
@@ -720,16 +723,10 @@ function zoomToArea() {
     } else {
 
         // Geocode the address/area entered to get the center. Then, center the map
-
         // on it and zoom in
 
         geocoder.geocode({
-            address: address,
-
-            componentRestrictions: {
-                locality: 'New York'
-            }
-
+            address: address
         }, function (results, status) {
 
             if (status == google.maps.GeocoderStatus.OK) {
@@ -1189,19 +1186,20 @@ function getPlacesDetails(marker, infowindow) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    var testTitleModel = {
-        PageTitle : "Find the best casino"      
+populateYelpReviews("paris-las-vegas-hotel-and-casino-las-vegas");
+populateYelpReviews("planet-hollywood-las-vegas-resort-and-casino-las-vegas");
+populateYelpReviews("aria-resort-and-casino-las-vegas-5");
+populateYelpReviews("ellis-island-hotel-casino-and-brewery-las-vegas");
+populateYelpReviews("the-mirage-las-vegas-3");
+populateYelpReviews("The+Cheesecake+Factory");
+populateYelpReviews("bacchanal-buffet-las-vegas-7");
+
+document.addEventListener("DOMContentLoaded", function () {    
+    var viewModel = {
+        PageTitle : ko.observable("Find the best casino"),
+        Locations : ko.observableArray(locations)    
     };
-    ko.applyBindings(testTitleModel);
-    
-    populateYelpReviews("paris-las-vegas-hotel-and-casino-las-vegas");
-    populateYelpReviews("planet-hollywood-las-vegas-resort-and-casino-las-vegas");
-    populateYelpReviews("aria-resort-and-casino-las-vegas-5");
-    populateYelpReviews("ellis-island-hotel-casino-and-brewery-las-vegas");
-    populateYelpReviews("the-mirage-las-vegas-3");
-    populateYelpReviews("The+Cheesecake+Factory");
-    populateYelpReviews("bacchanal-buffet-las-vegas-7");
+    ko.applyBindings(viewModel);
 });
 
 function populateYelpReviews(yelpId) {
@@ -1213,7 +1211,6 @@ function populateYelpReviews(yelpId) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var searchResponse = JSON.parse(xhttp.responseText);
             yelpReviews[yelpId] = searchResponse.reviews;
-            console.log(yelpReviews);
         }
     }
 }
