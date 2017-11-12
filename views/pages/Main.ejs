@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <div class="options-box">
-      <h1 data-bind="text: PageTitle"></h1>
+      <h1>Find the best casino</h1>
       <div>
         <input id="show-listings" type="button" value="Show Listings">
         <input id="hide-listings" type="button" value="Hide Listings">
@@ -88,8 +88,10 @@
 
     <div id="map"></div>
 
-  </div>  
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>
+  <script src="/underscore.js"></script>
+  <script src="/knockout.debug.js"></script>
   <script src="/scripts/main.js"></script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap">
