@@ -49,7 +49,6 @@ function getYelpReview(req, res) {
             reviews: []
           });
         } else {
-          console.log(yelpId);
           res.json(body);
         }
       });

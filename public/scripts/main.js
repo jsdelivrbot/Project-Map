@@ -912,20 +912,18 @@ function populateYelpReviews(yelpId) {
         if (xhttp.readyState === 4 && xhttp.status === 200) {
             const searchResponse = JSON.parse(xhttp.responseText);
             let reviews = searchResponse.reviews;
-            if(reviews){
-                yelpReviews[yelpId] = searchResponse.reviews;
-            } else {
-                viewModel.Locations.remove(function (location) {
-                    return location.attributes.yelpId === yelpId;
-                });
-            }
+            /*viewModel.Locations.remove(function (location) {
+                return location.attributes.yelpId === yelpId;
+            });*/
+            yelpReviews[yelpId] = reviews ? searchResponse.reviews : [{text: "No yelp review found for this location"}];
         }
     }
 }
 
 let viewModel = {};
+/*
 var locationWrapperInner = function () {};
 
 function locationClickWrapper(obj) {
     locationWrapperInner(obj);
-}
+}*/
