@@ -920,10 +920,22 @@ function populateYelpReviews(yelpId) {
     }
 }
 
+//dummy for viewModel to have global scope
 let viewModel = {};
-/*
-var locationWrapperInner = function () {};
 
+var locationWrapperInner = function () {};
 function locationClickWrapper(obj) {
     locationWrapperInner(obj);
-}*/
+}
+
+function filterByType() {
+    var selectElement = document.getElementById("filterBy");
+    var optionValue = selectElement.options[selectElement.selectedIndex].value;
+    if(optionValue !== "All") {
+        viewModel.Locations.remove(function (location) {
+            return location.serviceType != optionValue;
+        });
+    } else{
+
+    }
+}
