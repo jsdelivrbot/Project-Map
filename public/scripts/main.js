@@ -203,16 +203,12 @@ function initMap() {
 
     // Constructor creates a new map - only center and zoom are required
     map = new google.maps.Map(document.getElementById('map'), {
-
         center: {
             lat: 36.1116122,
             lng: -115.173107
         },
-
         zoom: 13,
-
         styles: styles,
-
         mapTypeControl: false
     });
 
@@ -296,7 +292,6 @@ function initMap() {
 
 
     // The following group uses the location array to create an array of markers on initialize
-
     for (let location of locations) {
         // Get the position from the location array
         let position = location.location;
@@ -696,11 +691,8 @@ const FilterCasinoMarkers = [];
 //    }
 
 
-document.getElementById('go-filter').addEventListener('click', FilterMarkers); //send markers.id = "Food"  ?    
-function FilterMarkers() {
-
-    const filter2 = document.getElementById('filter').value;
-    if (filter2 === 'Food') {
+function FilterMarkers(optionValue) {
+    if (optionValue === 'Food') {
 
         for (let marker of markers) {
             if (marker.serviceType !== "Food") {
@@ -710,7 +702,7 @@ function FilterMarkers() {
                 marker.enabled = true;
             }
         }
-    } else if (filter2 === 'Casino') {
+    } else if (optionValue === 'Casino') {
 
         for (let marker of markers) {
             if (marker.serviceType !== "Casino") {
@@ -720,7 +712,7 @@ function FilterMarkers() {
                 marker.enabled = true;
             }
         }
-    } else if (filter2 === 'Select') {
+    } else if (optionValue === 'Casino|Food') {
 
         for (let marker of markers) {
             marker.enabled = true;
@@ -898,9 +890,10 @@ for (let location of locations) {
 
 document.addEventListener("DOMContentLoaded", function () {
     viewModel = {
-        Locations: ko.observableArray(locations)
+        Locations: ko.observableArray()
     };
     ko.applyBindings(viewModel);
+    filterByType(true);
 });
 
 function populateYelpReviews(yelpId) {
@@ -912,9 +905,6 @@ function populateYelpReviews(yelpId) {
         if (xhttp.readyState === 4 && xhttp.status === 200) {
             const searchResponse = JSON.parse(xhttp.responseText);
             let reviews = searchResponse.reviews;
-            /*viewModel.Locations.remove(function (location) {
-                return location.attributes.yelpId === yelpId;
-            });*/
             yelpReviews[yelpId] = reviews ? searchResponse.reviews : [{text: "No yelp review found for this location"}];
         }
     }
@@ -923,19 +913,25 @@ function populateYelpReviews(yelpId) {
 //dummy for viewModel to have global scope
 let viewModel = {};
 
-var locationWrapperInner = function () {};
+var locationWrapperInner = function () {
+};
+
 function locationClickWrapper(obj) {
     locationWrapperInner(obj);
 }
 
-function filterByType() {
+function filterByType(init) {
     var selectElement = document.getElementById("filterBy");
     var optionValue = selectElement.options[selectElement.selectedIndex].value;
-    if(optionValue !== "All") {
-        viewModel.Locations.remove(function (location) {
-            return location.serviceType != optionValue;
-        });
-    } else{
+    for (let location of locations) {
+        if (optionValue.indexOf(location.serviceType) !== -1 && viewModel.Locations.indexOf(location) === -1) {
+            viewModel.Locations.push(location);
+        } else if (optionValue.indexOf(location.serviceType) === -1 && viewModel.Locations.indexOf(location) !== -1) {
+            viewModel.Locations.remove(location);
+        }
+    }
 
+    if(!init){
+        FilterMarkers(optionValue);
     }
 }
