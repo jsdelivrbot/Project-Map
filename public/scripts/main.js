@@ -664,58 +664,13 @@ function displayMarkersWithinTime(response) {
     }
 }
 
-
-// This function is in response to the user selecting "show route" on one
-// of the markers within the calculated distance. This will display the route on the map
-
-
-// Make an array for the filter function
-const FilterFoodMarkers = []; //placeMarkers
-const FilterCasinoMarkers = [];
-
-//FilterFoodMarkers.push(marker);
-
-// for (var i = 0; i < markers.length; i++) {
-
-//      FilterFoodMarkers[i] = markers[i].id('Food');
-//      }
-
-//    var destination = address;
-
-
-//FilterCasinoMarkers.push(marker);
-
-// for (var i = 0; i < markers.length; i++) {
-
-//      FilterCasinoMarkers[i] = markers[i].id('Casino');
-//    }
-
-
 function FilterMarkers(optionValue) {
-    if (optionValue === 'Food') {
-
-        for (let marker of markers) {
-            if (marker.serviceType !== "Food") {
-                marker.enabled = false;
-                marker.setMap(null);
-            } else {
-                marker.enabled = true;
-            }
-        }
-    } else if (optionValue === 'Casino') {
-
-        for (let marker of markers) {
-            if (marker.serviceType !== "Casino") {
-                marker.enabled = false;
-                marker.setMap(null);
-            } else {
-                marker.enabled = true;
-            }
-        }
-    } else if (optionValue === 'Casino|Food') {
-
-        for (let marker of markers) {
+    for(let marker of markers){
+        if(optionValue.indexOf(marker.serviceType) !== -1){
             marker.enabled = true;
+        } else {
+            marker.enabled = false;
+            marker.setMap(null);
         }
     }
     showListings();
