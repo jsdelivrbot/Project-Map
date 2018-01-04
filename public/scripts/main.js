@@ -212,19 +212,6 @@ function initMap() {
         mapTypeControl: false
     });
 
-
-    // This autocomplete is for use in the search within time entry box
-    // noinspection JSUnusedLocalSymbols
-    const timeAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('search-within-time-text'));
-
-    // This autocomplete is for use in the geocoder entry box
-    const zoomAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('zoom-to-area-text'));
-
-    // Bias the boundaries within the map for the zoom to area text
-    zoomAutocomplete.bindTo('bounds', map);
-
     // Create a searchbox in order to execute a places search
     const searchBox = new google.maps.places.SearchBox(
         document.getElementById('places-search'));
@@ -331,24 +318,6 @@ function initMap() {
     document.getElementById('hide-listings').addEventListener('click', function () {
         hideMarkers(markers);
     });
-
-
-    document.getElementById('toggle-drawing').addEventListener('click', function () {
-
-        toggleDrawing(drawingManager);
-    });
-
-
-    document.getElementById('zoom-to-area').addEventListener('click', function () {
-
-        zoomToArea();
-    });
-
-
-    document.getElementById('search-within-time').addEventListener('click', function () {
-        searchWithinTime();
-    });
-
 
     // Listen for the event fired when the user selects a prediction from the
     // picklist and retrieve more details for that place
