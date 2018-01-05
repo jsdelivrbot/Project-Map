@@ -1,8 +1,9 @@
-body {
+body, html {
     font-family: Arial, sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .container {
@@ -39,10 +40,10 @@ hr {
     left: 362px;
     position: absolute;
     right: 0px;
-    min-width: 400px;
+    text-align: center;
 }
 
-.options-box {
+.sidebar {
     background: #fff;
     border: 1px solid #999;
     border-radius: 3px;
@@ -81,3 +82,13 @@ hr {
     width: 24%;
 }
 
+/*this is for mobile screens*/
+@media screen and (max-width: 720px) {
+    .sidebar {
+        display: none;
+    }
+
+    #map {
+        left: 0px;
+    }
+}

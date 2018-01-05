@@ -1,0 +1,1 @@
+Usage: blah blah blah, On mobile sreens the sidebar disappears, this fulfills the responsiveness requirement

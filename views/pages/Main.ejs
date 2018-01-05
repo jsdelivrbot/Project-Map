@@ -8,36 +8,20 @@
 
 <body>
   <div class="container">
-    <div class="options-box">
+    <div class="sidebar">
       <h1>What are you looking for?</h1>
       <div>
         <input id="show-listings" type="button" value="Show Listings">
         <input id="hide-listings" type="button" value="Hide Listings">
-        <hr>
-      </div>
-
-      <hr>
-
-      <div>
-
-        <span class="text">Search for nearby places</span>
-
-        <input id="places-search" type="text" placeholder="Ex: Pizza delivery in NYC">
-
-        <input id="go-places" type="button" value="Go">
-
       </div>
       <hr>
       <div>
-        <span class="text"> Looking for </span>
-
-        <select id="filterBy">
+        <span class="text"> Looking for: </span>
+        <select id="filterBy" onchange="filterListingsByType()">
             <option value="Casino|Food">All</option>
             <option value="Casino">Casino</option>
-            <option value="Food">Restaraunt</option>
+            <option value="Food">Restaurant</option>
           </select>
-
-        <input id="go-filter" type="button" value="Go" onclick="filterByType()">
       </div>
 
       <div data-bind="foreach: Locations">
@@ -47,7 +31,7 @@
       <hr/>
     </div>
 
-    <div id="map"></div>
+    <div id="map">Google Maps isn't available</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>
@@ -55,8 +39,7 @@
   <script src="/knockout.debug.js"></script>
   <script src="/scripts/main.js"></script>
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap"></script>
 
 </body>
 

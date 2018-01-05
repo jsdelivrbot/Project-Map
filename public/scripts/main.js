@@ -1,9 +1,8 @@
 let map;
 
-
 // Create a new blank array for all the listing markers.
 const markers = [];
-yelpReviews = {};
+let yelpReviews = {};
 let locations = [
     {
         title: 'Paris Las Vegas',
@@ -13,7 +12,7 @@ let locations = [
         },
         serviceType: "Casino",
         attributes: {
-            id: 0,
+            index: 0,
             yelpId: "paris-las-vegas-hotel-and-casino-las-vegas"
         }
     },
@@ -25,7 +24,7 @@ let locations = [
         },
         serviceType: "Casino",
         attributes: {
-            id: 1,
+            index: 1,
             yelpId: "planet-hollywood-las-vegas-resort-and-casino-las-vegas"
         }
     },
@@ -37,7 +36,7 @@ let locations = [
         },
         serviceType: "Casino",
         attributes: {
-            id: 2,
+            index: 2,
             yelpId: "aria-resort-and-casino-las-vegas-5"
         }
     },
@@ -49,7 +48,7 @@ let locations = [
         },
         serviceType: "Casino",
         attributes: {
-            id: 3,
+            index: 3,
             yelpId: "ellis-island-hotel-casino-and-brewery-las-vegas"
         }
     },
@@ -61,7 +60,7 @@ let locations = [
         },
         serviceType: "Casino",
         attributes: {
-            id: 4,
+            index: 4,
             yelpId: "the-mirage-las-vegas-3"
         }
     },
@@ -73,7 +72,7 @@ let locations = [
         },
         serviceType: "Food",
         attributes: {
-            id: 5,
+            index: 5,
             yelpId: "The+Cheesecake+Factory"
         }
     },
@@ -85,7 +84,7 @@ let locations = [
         },
         serviceType: "Food",
         attributes: {
-            id: 6,
+            index: 6,
             yelpId: "bacchanal-buffet-las-vegas-7"
         }
     }
@@ -212,13 +211,6 @@ function initMap() {
         mapTypeControl: false
     });
 
-    // Create a searchbox in order to execute a places search
-    const searchBox = new google.maps.places.SearchBox(
-        document.getElementById('places-search'));
-
-    // Bias the searchbox to within the bounds of the map
-    searchBox.setBounds(map.getBounds());
-
     const largeInfoWindow = new google.maps.InfoWindow();
 
 
@@ -242,8 +234,8 @@ function initMap() {
     const highlightedIcon = makeMarkerIcon('FFFF24');
 
     locationWrapperInner = function (obj) {
-        const position = obj.id;
-        marker = markers[position];
+        const index = obj.attributes.index.nodeValue;
+        marker = markers[index];
         populateInfoWindow(marker, largeInfoWindow, obj.getAttribute("yelpId"));
     };
 
@@ -255,29 +247,7 @@ function initMap() {
         locationButton.id = i;
         locationButton.innerHTML = title;
         locationButton.setAttribute("yelpId", locations[i].yelpId);
-
-
-        // 2. Append somewhere
-        // var body = document.getElementById("listing");
-        // body.appendChild(locationButton);
-        // body.innerHTML += "<br>";
-
-
     }
-
-    // for (var i = 0; i < locations.length; i++)
-    //     document.getElementById(i).addEventListener('click', function () {
-    //         locationClick(this);
-    //     });
-
-
-    //     document.getElementById("listing").innerHTML += title + "<br>"; }
-    //      var listing = new listing({
-    //       name: title,
-    //       position: position
-    //      });}
-
-
     // The following group uses the location array to create an array of markers on initialize
     for (let location of locations) {
         // Get the position from the location array
@@ -289,7 +259,7 @@ function initMap() {
             title: location.title,
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
-            id: location.attributes.id,
+            id: location.attributes.index,
             yelpId: location.attributes.yelpId
         });
         marker.enabled = true;
@@ -318,17 +288,6 @@ function initMap() {
     document.getElementById('hide-listings').addEventListener('click', function () {
         hideMarkers(markers);
     });
-
-    // Listen for the event fired when the user selects a prediction from the
-    // picklist and retrieve more details for that place
-    searchBox.addListener('places_changed', function () {
-        searchBoxPlaces(this);
-    });
-
-
-    // Listen for the event fired when the user selects a prediction and clicks
-    // "go" more details for that place
-    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 
 
     // Add an event listener so that the polygon is captured,  call the
@@ -634,8 +593,8 @@ function displayMarkersWithinTime(response) {
 }
 
 function FilterMarkers(optionValue) {
-    for(let marker of markers){
-        if(optionValue.indexOf(marker.serviceType) !== -1){
+    for (let marker of markers) {
+        if (optionValue.indexOf(marker.serviceType) !== -1) {
             marker.enabled = true;
         } else {
             marker.enabled = false;
@@ -674,38 +633,6 @@ function displayDirections(origin) {
             });
         } else {
             window.alert('Directions request failed due to ' + status);
-        }
-    });
-}
-
-
-// This function fires when the user selects a searchbox picklist item
-// It will do a nearby search using the selected query string or place
-function searchBoxPlaces(searchBox) {
-    hideMarkers(placeMarkers);
-    const places = searchBox.getPlaces();
-
-    if (places.length === 0) {
-        window.alert('We did not find any places matching that search!');
-    } else {
-        // For each place, get the icon, name and location
-        createMarkersForPlaces(places);
-    }
-}
-
-
-// This function fires when the user selects "go" on the places search
-// It will do a nearby search using the entered query string or place
-function textSearchPlaces() {
-    const bounds = map.getBounds();
-    hideMarkers(placeMarkers);
-    const placesService = new google.maps.places.PlacesService(map);
-    placesService.textSearch({
-        query: document.getElementById('places-search').value,
-        bounds: bounds
-    }, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            createMarkersForPlaces(results);
         }
     });
 }
@@ -817,7 +744,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Locations: ko.observableArray()
     };
     ko.applyBindings(viewModel);
-    filterByType(true);
+    filterListingsByType(true);
 });
 
 function populateYelpReviews(yelpId) {
@@ -841,10 +768,11 @@ var locationWrapperInner = function () {
 };
 
 function locationClickWrapper(obj) {
+    //necessary, to allow locationWrapperInner access to the correct scope
     locationWrapperInner(obj);
 }
 
-function filterByType(init) {
+function filterListingsByType(init) {
     var selectElement = document.getElementById("filterBy");
     var optionValue = selectElement.options[selectElement.selectedIndex].value;
     for (let location of locations) {
@@ -855,7 +783,8 @@ function filterByType(init) {
         }
     }
 
-    if(!init){
+    if (!init) {
+        showListings();
         FilterMarkers(optionValue);
     }
 }
