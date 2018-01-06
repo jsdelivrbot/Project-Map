@@ -14,7 +14,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function (request, response) {
-  response.render('pages/Main');
+  response.render('pages/Index');
 });
 
 
@@ -24,7 +24,7 @@ app.listen(app.get('port'), function () {
 });
 
 function getYelpReview(req, res) {
-  var yelpId = req.params["id"];
+  var yelpId = req.params.id;
   var yelpBaseurl = "https://api.yelp.com/oauth2/token";
   request.post(yelpBaseurl, {
     form: {
