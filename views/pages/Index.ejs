@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
 <html>
+<Title>
+    Entertainments
+</Title>
 
 <head>
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
@@ -27,7 +30,7 @@
 
         <div data-bind="foreach: Locations">
             <button data-bind="text: title, attr: attributes, click:locationClickWrapper"></button>
-            </br>
+            <br>
         </div>
         <hr/>
     </div>
@@ -39,7 +42,8 @@
 <script src="/scripts/main.js"></script>
 
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap"
+        onerror="mapLoadError()"></script>
 
 </body>
 

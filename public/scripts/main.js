@@ -6,7 +6,7 @@ let yelpReviews = {};
 let locations = [];
 // This global polygon variable is to ensure only ONE polygon is rendered.
 let polygon = null;
-let styles =[];
+let styles = [];
 let bounds = {};
 
 
@@ -60,15 +60,7 @@ function initMapInner() {
         marker = markers[index];
         populateInfoWindow(marker, largeInfoWindow, obj.attributes.yelpId);
     }
-    for (let i = 0; i < locations.length; i++) {
-        // Get the position from the location array
-        const title = locations[i].title;
 
-        const locationButton = document.createElement("button");
-        locationButton.id = i;
-        locationButton.innerHTML = title;
-        locationButton.setAttribute("yelpId", locations[i].yelpId);
-    }
     // The following group uses the location array to create an array of markers on initialize
     for (let location of locations) {
         // Get the position from the location array
@@ -131,7 +123,7 @@ function initMapInner() {
         polygon.getPath().addListener('insert_at', searchWithinPolygon);
     });
     filterListingsByType(true);
-    google.maps.event.addDomListener(window, 'resize', function() {
+    google.maps.event.addDomListener(window, 'resize', function () {
         map.fitBounds(bounds);
     });
 }
@@ -484,10 +476,6 @@ function getPlacesDetails(marker, infowindow) {
     });
 }
 
-for (let location of locations) {
-    populateYelpReviews(location.attributes.yelpId);
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     viewModel = {
         Locations: ko.observableArray()
@@ -506,6 +494,9 @@ function getLocations() {
                 var data = JSON.parse(xhttp.responseText);
                 locations = data.locations;
                 styles = data.styles;
+                for (let location of locations) {
+                    populateYelpReviews(location.attributes.yelpId);
+                }
                 initMapInner();
             }
             catch (e) {
@@ -524,8 +515,13 @@ function populateYelpReviews(yelpId) {
         if (xhttp.readyState === 4 && xhttp.status === 200) {
             const searchResponse = JSON.parse(xhttp.responseText);
             let reviews = searchResponse.reviews;
-            yelpReviews[yelpId] = reviews ? searchResponse.reviews : [{text: "No yelp review found for this location"}];
+            yelpReviews[yelpId] = reviews ? reviews : [{text: "No yelp review found for this location"}];
+        } else {
+            yelpReviews[yelpId] = [{text: "Error getting Yelp review for this location"}];
         }
+    }
+    xhttp.onerror = function () {
+        yelpReviews[yelpId] = [{text: "Error getting Yelp review for this location"}];
     }
 }
 
@@ -556,3 +552,6 @@ function filterListingsByType(init) {
         FilterMarkers(optionValue);
     }
 }
+ function mapLoadError(){
+    alert("failed to load the map");
+ }
