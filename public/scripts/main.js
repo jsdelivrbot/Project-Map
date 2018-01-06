@@ -3,94 +3,10 @@ let map;
 // Create a new blank array for all the listing markers.
 const markers = [];
 let yelpReviews = {};
-let locations = [
-    {
-        title: 'Paris Las Vegas',
-        location: {
-            lat: 36.1125414,
-            lng: -115.1728592
-        },
-        serviceType: "Casino",
-        attributes: {
-            index: 0,
-            yelpId: "paris-las-vegas-hotel-and-casino-las-vegas"
-        }
-    },
-    {
-        title: 'Planet Hollywood Resort & Casino',
-        location: {
-            lat: 36.1099696,
-            lng: -115.1722533
-        },
-        serviceType: "Casino",
-        attributes: {
-            index: 1,
-            yelpId: "planet-hollywood-las-vegas-resort-and-casino-las-vegas"
-        }
-    },
-    {
-        title: 'ARIA Resort & Casino Las Vegas',
-        location: {
-            lat: 36.1072611,
-            lng: -115.1758354
-        },
-        serviceType: "Casino",
-        attributes: {
-            index: 2,
-            yelpId: "aria-resort-and-casino-las-vegas-5"
-        }
-    },
-    {
-        title: 'Ellis Island Casino & Brewery',
-        location: {
-            lat: 36.113063,
-            lng: -115.1656757
-        },
-        serviceType: "Casino",
-        attributes: {
-            index: 3,
-            yelpId: "ellis-island-hotel-casino-and-brewery-las-vegas"
-        }
-    },
-    {
-        title: 'The Mirage',
-        location: {
-            lat: 36.1211957,
-            lng: -115.1762622
-        },
-        serviceType: "Casino",
-        attributes: {
-            index: 4,
-            yelpId: "the-mirage-las-vegas-3"
-        }
-    },
-    {
-        title: 'The Cheesecake Factory',
-        location: {
-            lat: 36.1192575,
-            lng: -115.1787052
-        },
-        serviceType: "Food",
-        attributes: {
-            index: 5,
-            yelpId: "The+Cheesecake+Factory"
-        }
-    },
-    {
-        title: 'Bacchanal Buffet',
-        location: {
-            lat: 36.117746,
-            lng: -115.1781976
-        },
-        serviceType: "Food",
-        attributes: {
-            index: 6,
-            yelpId: "bacchanal-buffet-las-vegas-7"
-        }
-    }
-];
+let locations = [];
 // This global polygon variable is to ensure only ONE polygon is rendered.
 let polygon = null;
+let styles =[];
 
 
 // Create placemarkers array to use in multiple functions to have control
@@ -99,106 +15,13 @@ const placeMarkers = [];
 
 // noinspection JSUnusedGlobalSymbols
 function initMap() {
+    getLocations();
+}
+
+function initMapInner() {
     let marker;
 
-// Create a styles array to use with the map
-    const styles = [
-        {
-            featureType: 'water',
-            stylers: [
-                {
-                    color: '#19a0d8'
-                }
-            ]
-        }, {
-            featureType: 'administrative',
-            elementType: 'labels.text.stroke',
-            stylers: [
-                {
-                    color: '#ffffff'
-                },
-                {
-                    weight: 6
-                }
-            ]
-        }, {
-            featureType: 'administrative',
-            elementType: 'labels.text.fill',
-            stylers: [
-                {
-                    color: '#e85113'
-                }
-            ]
-        }, {
-            featureType: 'road.highway',
-            elementType: 'geometry.stroke',
-            stylers: [
-                {
-                    color: '#efe9e4'
-                },
 
-                {
-                    lightness: -40
-                }
-            ]
-        }, {
-            featureType: 'transit.station',
-            stylers: [
-                {
-                    weight: 9
-                },
-                {
-                    hue: '#e85113'
-                }
-            ]
-
-        }, {
-            featureType: 'road.highway',
-            elementType: 'labels.icon',
-            stylers: [
-                {
-                    visibility: 'off'
-                }
-            ]
-        }, {
-            featureType: 'water',
-            elementType: 'labels.text.stroke',
-            stylers: [
-                {
-                    lightness: 100
-                }
-            ]
-        }, {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [
-                {
-                    lightness: -100
-                }
-            ]
-        }, {
-            featureType: 'poi',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    visibility: 'on'
-                },
-                {
-                    color: '#f0e4d3'
-                }
-            ]
-        }, {
-            featureType: 'road.highway',
-            elementType: 'geometry.fill',
-            stylers: [{
-                color: '#efe9e4'
-            },
-                {
-                    lightness: -25
-                }
-            ]
-        }
-    ];
 
     // Constructor creates a new map - only center and zoom are required
     map = new google.maps.Map(document.getElementById('map'), {
@@ -234,11 +57,10 @@ function initMap() {
     const highlightedIcon = makeMarkerIcon('FFFF24');
 
     locationWrapperInner = function (obj) {
-        const index = obj.attributes.index.nodeValue;
+        const index = obj.attributes.index;
         marker = markers[index];
-        populateInfoWindow(marker, largeInfoWindow, obj.getAttribute("yelpId"));
-    };
-
+        populateInfoWindow(marker, largeInfoWindow, obj.attributes.yelpId);
+    }
     for (let i = 0; i < locations.length; i++) {
         // Get the position from the location array
         const title = locations[i].title;
@@ -283,6 +105,7 @@ function initMap() {
     }
     showListings();
 
+
     // Push the marker to our array of markers
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', function () {
@@ -315,6 +138,7 @@ function initMap() {
         polygon.getPath().addListener('set_at', searchWithinPolygon);
         polygon.getPath().addListener('insert_at', searchWithinPolygon);
     });
+    filterListingsByType(true);
 }
 
 
@@ -352,8 +176,10 @@ function populateInfoWindow(marker, infowindow, yelpId) {
                 const heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
 
                 let infoWindowContent = '<div>' + marker.title + '</div><div id="pano"></div><div id="yelpReviews"><ul>';
-                for (let review of yelpReviews[yelpId]) {
-                    infoWindowContent += `<li>${review.text}</li>`;
+                if (yelpReviews && yelpReviews[yelpId]) {
+                    for (let review of yelpReviews[yelpId]) {
+                        infoWindowContent += `<li>${review.text}</li>`;
+                    }
                 }
                 infoWindowContent += "</ul></div>";
                 infowindow.setContent(infoWindowContent);
@@ -370,7 +196,9 @@ function populateInfoWindow(marker, infowindow, yelpId) {
                 const panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
 
-            } else {
+            }
+
+            else {
                 let infoWindowContent = '<div>' + marker.title + '</div>' + '<div>No Street View Found</div><div id="yelpReviews"><ul>';
                 for (let review of yelpReviews[yelpId]) {
                     infoWindowContent += `<li>${review.text}</li>`;
@@ -744,8 +572,27 @@ document.addEventListener("DOMContentLoaded", function () {
         Locations: ko.observableArray()
     };
     ko.applyBindings(viewModel);
-    filterListingsByType(true);
 });
+
+function getLocations() {
+    const yelpBaseurl = `/data/`;
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("Get", yelpBaseurl, true);
+    xhttp.send(null);
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
+            try {
+                var data = JSON.parse(xhttp.responseText);
+                locations = data.locations;
+                styles = data.styles;
+                initMapInner();
+            }
+            catch (e) {
+                alert("Server error:" + e);
+            }
+        }
+    }
+}
 
 function populateYelpReviews(yelpId) {
     const yelpBaseurl = `/yelpReviews/${yelpId}`;

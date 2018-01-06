@@ -3,41 +3,43 @@
 <html>
 
 <head>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
     <div class="sidebar">
-      <h1>What are you looking for?</h1>
-      <div>
-        <input id="show-listings" type="button" value="Show Listings">
-        <input id="hide-listings" type="button" value="Hide Listings">
-      </div>
-      <hr>
-      <div>
-        <span class="text"> Looking for: </span>
-        <select id="filterBy" onchange="filterListingsByType()">
-            <option value="Casino|Food">All</option>
-            <option value="Casino">Casino</option>
-            <option value="Food">Restaurant</option>
-          </select>
-      </div>
+        <h1>What are you looking for?</h1>
+        <div>
+            <input id="show-listings" type="button" value="Show Listings">
+            <input id="hide-listings" type="button" value="Hide Listings">
+        </div>
+        <hr>
+        <div>
+            <span class="text"> Looking for: </span>
+            <select id="filterBy" onchange="filterListingsByType()">
+                <option value="Casino|Food">All</option>
+                <option value="Casino">Casino</option>
+                <option value="Food">Restaurant</option>
+            </select>
+        </div>
 
-      <div data-bind="foreach: Locations">
-        <button data-bind="text: title, attr: attributes" onclick="locationClickWrapper(this)"></button>
-        </br>
-      </div>
-      <hr/>
+        <div data-bind="foreach: Locations">
+            <button data-bind="text: title, attr: attributes, click:locationClickWrapper"></button>
+            </br>
+        </div>
+        <hr/>
     </div>
 
     <div id="map">Google Maps isn't available</div>
-  </div>
+</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>
-  <script src="/scripts/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>
+<script src="/scripts/main.js"></script>
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAyiFjEyl-9RPWp5e-4hF8TCy5xUtcdldo&v=3&callback=initMap"></script>
 
 </body>
 

@@ -2,12 +2,11 @@
 node_modules
 npm-debug.log
 bower_components
+.idea
 
 # Local development
 *.env
 *.dev
 .DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+views/partials/
