@@ -7,6 +7,7 @@ let locations = [];
 // This global polygon variable is to ensure only ONE polygon is rendered.
 let polygon = null;
 let styles =[];
+let bounds = {};
 
 
 // Create placemarkers array to use in multiple functions to have control
@@ -20,8 +21,6 @@ function initMap() {
 
 function initMapInner() {
     let marker;
-
-
 
     // Constructor creates a new map - only center and zoom are required
     map = new google.maps.Map(document.getElementById('map'), {
@@ -106,13 +105,6 @@ function initMapInner() {
     showListings();
 
 
-    // Push the marker to our array of markers
-    document.getElementById('show-listings').addEventListener('click', showListings);
-    document.getElementById('hide-listings').addEventListener('click', function () {
-        hideMarkers(markers);
-    });
-
-
     // Add an event listener so that the polygon is captured,  call the
     // searchWithinPolygon function. This will show the markers in the polygon,
     // and hide any outside of it
@@ -139,6 +131,9 @@ function initMapInner() {
         polygon.getPath().addListener('insert_at', searchWithinPolygon);
     });
     filterListingsByType(true);
+    google.maps.event.addDomListener(window, 'resize', function() {
+        map.fitBounds(bounds);
+    });
 }
 
 
@@ -221,7 +216,7 @@ function populateInfoWindow(marker, infowindow, yelpId) {
 
 // This function will loop through the markers array and display them all
 function showListings() {
-    const bounds = new google.maps.LatLngBounds();
+    bounds = new google.maps.LatLngBounds();
 
     // Extend the boundaries of the map for each marker and display the marker
     for (let i = 0; i < markers.length; i++) {
@@ -237,7 +232,7 @@ function showListings() {
 
 
 // This function will loop through the listings and hide them all
-function hideMarkers(markers) {
+function hideMarkers() {
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
@@ -283,80 +278,6 @@ function searchWithinPolygon() {
         } else {
             markers[i].setMap(null);
         }
-    }
-}
-
-
-// This function takes the input value in the find nearby area text input
-// locates it, and then zooms into that area. This is so that the user can
-// show all listings, then decide to focus on one area of the map
-function zoomToArea() {
-    // Initialize the geocoder
-    const geocoder = new google.maps.Geocoder();
-
-    // Get the address or place that the user entered
-    const address = document.getElementById('zoom-to-area-text').value;
-
-    // Make sure the address isn't blank
-    if (address === '') {
-        window.alert('You must enter an area, or address.');
-    } else {
-        // Geocode the address/area entered to get the center. Then, center the map
-        // on it and zoom in
-        geocoder.geocode({
-            address: address
-        }, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                map.setZoom(15);
-            } else {
-                window.alert('We could not find that location - try entering a more' +
-                    ' specific place.');
-            }
-        });
-    }
-}
-
-
-// This function allows the user to input a desired travel time, in
-// minutes, and a travel mode, and a location - and only show the listings
-// that are within that travel time (via that travel mode) of the location
-function searchWithinTime() {
-    // Initialize the distance matrix service
-    const distanceMatrixService = new google.maps.DistanceMatrixService;
-    const address = document.getElementById('search-within-time-text').value;
-
-    // Check to make sure the place entered isn't blank
-    if (address === '') {
-        window.alert('You must enter an address.');
-    } else {
-        hideMarkers(markers);
-
-        // Use the distance matrix service to calculate the duration of the
-        // routes between all our markers, and the destination address entered
-        // by the user. Then put all the origins into an origin matrix
-        const origins = [];
-        for (let i = 0; i < markers.length; i++) {
-            origins[i] = markers[i].position;
-        }
-
-        const destination = address;
-        const mode = document.getElementById('mode').value;
-
-        // Now that both the origins and destination are defined, get all the
-        // info for the distances between them
-        distanceMatrixService.getDistanceMatrix({
-            origins: origins,
-            destinations: [destination],
-            travelMode: google.maps.TravelMode[mode],
-            unitSystem: google.maps.UnitSystem.IMPERIAL,
-        }, function (response, status) {
-            if (status !== google.maps.DistanceMatrixStatus.OK) {
-                window.alert('Error was: ' + status);
-            } else {
-                displayMarkersWithinTime(response);
-            }
-        });
     }
 }
 
@@ -467,7 +388,7 @@ function displayDirections(origin) {
 
 // This function creates markers for each place found in either places search
 function createMarkersForPlaces(places) {
-    const bounds = new google.maps.LatLngBounds();
+    bounds = new google.maps.LatLngBounds();
 
     for (let i = 0; i < places.length; i++) {
         const place = places[i];
