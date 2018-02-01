@@ -502,6 +502,8 @@ function getLocations() {
             catch (e) {
                 alert("Server error:" + e);
             }
+        } else {
+            alert("Couldn't get locations from server");
         }
     }
 }
