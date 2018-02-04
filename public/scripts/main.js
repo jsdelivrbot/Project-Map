@@ -489,20 +489,34 @@ function getLocations() {
     xhttp.open("Get", yelpBaseurl, true);
     xhttp.send(null);
     xhttp.onreadystatechange = function () {
-        if (xhttp.readyState === 4 && xhttp.status === 200) {
-            try {
-                var data = JSON.parse(xhttp.responseText);
-                locations = data.locations;
-                styles = data.styles;
-                for (let location of locations) {
-                    populateYelpReviews(location.attributes.yelpId);
-                }
-                initMapInner();
+        if (xhttp.status === 200) {
+            switch (xhttp.readyState) {
+                case 1:
+                case 2:
+                case 3:
+                    console.log("Locations request in progress, state:" + xhttp.readyState);
+                    break;
+                case 4:
+                    try
+                    {
+                        var data = JSON.parse(xhttp.responseText);
+                        locations = data.locations;
+                        styles = data.styles;
+                        for (let location of locations) {
+                            populateYelpReviews(location.attributes.yelpId);
+                        }
+                        initMapInner();
+                    }
+                    catch(e)
+                    {
+                        alert("Server error:" + e);
+                    }
+                    break;
+                default:
+                    alert("Unknown request state");
             }
-            catch (e) {
-                alert("Server error:" + e);
-            }
-        } else {
+        }
+        else {
             alert("Couldn't get locations from server");
         }
     }
