@@ -461,6 +461,9 @@ function getLocations() {
             alert("Couldn't get locations from server");
         }
     }
+    xhttp.onerror = function () {
+        alert("Couldn't get locations from server");
+    }
 }
 
 function populateYelpReviews(yelpId) {
