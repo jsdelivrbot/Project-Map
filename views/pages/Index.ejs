@@ -8,11 +8,12 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
 </head>
 
 <body>
 <div class="container">
-    <div class="sidebar">
+    <div class="sidebar" data-bind="css: { out: out }, click: cssOut">
         <h1>What are you looking for?</h1>
         <div>
             <input data-bind="click:showListings" type="button" value="Show Listings">
@@ -29,13 +30,13 @@
         </div>
 
         <div data-bind="foreach: Locations">
-            <button data-bind="text: title, attr: attributes, click:locationClickWrapper"></button>
+            <button data-bind="text: title, attr: attributes, click: locationClickWrapper"></button>
             <br>
         </div>
         <hr/>
     </div>
 
-    <div id="map">Google Maps isn't available</div>
+    <div id="map" data-bind="css: { out: out }, click: cssIn">Google Maps isn't available</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>

@@ -59,11 +59,6 @@ hr {
     height: 200px;
 }
 
-#places-search,
-#search-within-time-text {
-    width: 84%;
-}
-
 .text {
     font-size: 12px;
 }
@@ -84,11 +79,19 @@ hr {
 
 /*this is for mobile screens*/
 @media screen and (max-width: 720px) {
+    .sidebar.out {
+        width: 340px;
+    }
+
     .sidebar {
-        display: none;
+        width: 40px;
+    }
+
+    #map.out {
+        left: 362px;
     }
 
     #map {
-        left: 0px;
+        left: 40px;
     }
 }

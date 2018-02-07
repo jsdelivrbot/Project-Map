@@ -83,7 +83,6 @@ function initMapInner() {
         // Create an onclick event to open the large infowindow at each marker
         marker.addListener('click', function () {
             populateInfoWindow(this, largeInfoWindow, yelpId);
-            map.panTo(marker.getPosition());
         });
 
         // Two event listeners for mouseover and for mouseout to change the colors back and forth
@@ -204,6 +203,7 @@ function populateInfoWindow(marker, infowindow, yelpId) {
         // Open the infowindow on the correct marker
         infowindow.open(map, marker);
     }
+    map.panTo(marker.getPosition());
 }
 
 
@@ -286,88 +286,6 @@ function FilterMarkers(optionValue) {
     showListings();
 }
 
-function displayDirections(origin) {
-    hideMarkers(markers);
-    const directionsService = new google.maps.DirectionsService;
-
-    // Get the destination address from the user entered value
-    const destinationAddress =
-        document.getElementById('search-within-time-text').value;
-
-    // Get mode again from the user entered value
-    const mode = document.getElementById('mode').value;
-
-    directionsService.route({
-        // The origin is the passed in marker's position
-        origin: origin,
-        // The destination is user entered address
-        destination: destinationAddress,
-        travelMode: google.maps.TravelMode[mode]
-    }, function (response, status) {
-        if (status === google.maps.DirectionsStatus.OK) {
-            const directionsDisplay = new google.maps.DirectionsRenderer({
-                map: map,
-                directions: response,
-                draggable: true,
-                polylineOptions: {
-                    strokeColor: 'green'
-                }
-            });
-        } else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
-}
-
-// This function creates markers for each place found in either places search
-function createMarkersForPlaces(places) {
-    bounds = new google.maps.LatLngBounds();
-
-    for (let i = 0; i < places.length; i++) {
-        const place = places[i];
-        const icon = {
-            url: place.icon,
-            size: new google.maps.Size(35, 35),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(15, 34),
-            scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place
-        const marker = new google.maps.Marker({
-            map: map,
-            icon: icon,
-            title: place.name,
-            position: place.geometry.location,
-            id: place.place_id
-        });
-
-        // Create a single infowindow to be used with the place details information
-        // so that only one is open at once
-        const placeInfoWindow = new google.maps.InfoWindow();
-
-        // If a marker is clicked, do a place details search on it in the next function
-        marker.addListener('click', function () {
-            if (placeInfoWindow.marker === this) {
-                console.log("This infowindow already is on this marker!");
-            } else {
-                getPlacesDetails(this, placeInfoWindow);
-
-            }
-        });
-
-        placeMarkers.push(marker);
-        if (place.geometry.viewport) {
-
-            // Only geocodes have viewport.
-            bounds.union(place.geometry.viewport);
-        } else {
-            bounds.extend(place.geometry.location);
-        }
-    }
-    map.fitBounds(bounds);
-}
-
 // This is the PLACE DETAILS search - it's the most detailed so it's only
 // executed when a marker is selected, indicating the user wants more
 // details about that place.
@@ -419,7 +337,8 @@ function getPlacesDetails(marker, infowindow) {
 
 document.addEventListener("DOMContentLoaded", function () {
     viewModel = {
-        Locations: ko.observableArray()
+        Locations: ko.observableArray(),
+        out: ko.observable(false)
     };
     ko.applyBindings(viewModel);
 });
@@ -494,6 +413,14 @@ var locationWrapperInner = function () {
 function locationClickWrapper(obj) {
     //necessary, to allow locationWrapperInner access to the correct scope
     locationWrapperInner(obj);
+}
+
+function cssOut(obj) {
+    viewModel.out(true);
+}
+
+function cssIn(obj) {
+    viewModel.out(false);
 }
 
 function filterListingsByType(init) {
