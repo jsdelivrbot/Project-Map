@@ -83,6 +83,7 @@ function initMapInner() {
         // Create an onclick event to open the large infowindow at each marker
         marker.addListener('click', function () {
             populateInfoWindow(this, largeInfoWindow, yelpId);
+            map.panTo(marker.getPosition());
         });
 
         // Two event listeners for mouseover and for mouseout to change the colors back and forth
