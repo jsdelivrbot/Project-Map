@@ -22,11 +22,7 @@
         <hr>
         <div>
             <span class="text"> Looking for: </span>
-            <select id="filterBy" onchange="filterListingsByType()">
-                <option value="Casino|Food">All</option>
-                <option value="Casino">Casino</option>
-                <option value="Food">Restaurant</option>
-            </select>
+            <select id="filterBy" data-bind="value: selectedChoice, options: Choices, optionsText: 'text', optionsValue: 'val', event: {change: filterListingsByType}"></select>
         </div>
 
         <div data-bind="foreach: Locations">

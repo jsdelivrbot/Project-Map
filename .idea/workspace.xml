@@ -4,7 +4,7 @@
     <list default="true" id="42605a22-73fb-4f6b-9d61-45e1dcd81f75" name="Default" comment="Now handles no reviews for a business corectly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/public/scripts/main.js" afterPath="$PROJECT_DIR$/public/scripts/main.js" />
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/main.css" afterPath="$PROJECT_DIR$/public/stylesheets/main.css" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" afterPath="$PROJECT_DIR$/readme.txt" />
       <change beforePath="$PROJECT_DIR$/views/pages/Index.ejs" afterPath="$PROJECT_DIR$/views/pages/Index.ejs" />
     </list>
     <ignored path="Project-Map.iws" />
@@ -24,31 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/scripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="205">
-              <caret line="421" column="14" lean-forward="false" selection-start-line="421" selection-start-column="9" selection-end-line="421" selection-end-column="14" />
+              <caret line="429" column="36" lean-forward="true" selection-start-line="429" selection-start-column="36" selection-end-line="429" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="81" column="16" lean-forward="false" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Index.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Index.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/pages/Index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="38" column="60" lean-forward="false" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="60" />
+            <state relative-caret-position="316">
+              <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -58,14 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>fitBounds</find>
-      <find>bounds</find>
-      <find>adde</find>
-      <find>yelpReviews</find>
-      <find>populateYelpReviews</find>
-      <find>atle</find>
-      <find>xhttp</find>
-      <find>Couldn't get locations from server</find>
       <find>getLocations</find>
       <find>initMap</find>
       <find>initmap</find>
@@ -80,14 +62,22 @@
       <find>ko.</find>
       <find>locationWrapperInner</find>
       <find>viewmo</find>
-      <find>viewModel</find>
       <find>ko</find>
       <find>css</find>
       <find>click</find>
       <find>map</find>
       <find>observa</find>
-      <find>out</find>
       <find>cssIn</find>
+      <find>getelem</find>
+      <find>getelementby</find>
+      <find>selec</find>
+      <find>getele</find>
+      <find>viewmodel</find>
+      <find>out</find>
+      <find>selectedChoice</find>
+      <find>filterListingsByType</find>
+      <find>viewModel</find>
+      <find>vie</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -98,7 +88,6 @@
       <list>
         <option value="$PROJECT_DIR$/public/scripts/dummy.js" />
         <option value="$PROJECT_DIR$/views/pages/Main.ejs" />
-        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/data/locations" />
         <option value="$PROJECT_DIR$/data/locations.json" />
         <option value="$PROJECT_DIR$/data/locations.js" />
@@ -107,8 +96,9 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/views/pages/Index.html" />
         <option value="$PROJECT_DIR$/public/stylesheets/main.css" />
-        <option value="$PROJECT_DIR$/public/scripts/main.js" />
+        <option value="$PROJECT_DIR$/readme.txt" />
         <option value="$PROJECT_DIR$/views/pages/Index.ejs" />
+        <option value="$PROJECT_DIR$/public/scripts/main.js" />
       </list>
     </option>
   </component>
@@ -124,7 +114,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1" />
+    <option name="x" value="2102" />
+    <option name="y" value="96" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
@@ -168,6 +159,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -213,7 +205,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -288,7 +279,8 @@
       <workItem from="1516942163344" duration="900000" />
       <workItem from="1517459785797" duration="1225000" />
       <workItem from="1517702816075" duration="5892000" />
-      <workItem from="1517965898105" duration="10950000" />
+      <workItem from="1517965898105" duration="12398000" />
+      <workItem from="1518163624459" duration="8304000" />
     </task>
     <task id="LOCAL-00001" summary="Looking readable">
       <created>1510470107824</created>
@@ -322,10 +314,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92290000" />
+    <option name="totallyTimeSpent" value="102042000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="99" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15226555" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -612,13 +604,6 @@
     <entry file="file://$PROJECT_DIR$/views/pages/Index.ejs" />
     <entry file="file://$PROJECT_DIR$/public/lang-logo.png" />
     <entry file="file://$PROJECT_DIR$/public/node.svg" />
-    <entry file="file://$PROJECT_DIR$/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="45" selection-end-line="0" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -668,14 +653,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="81" column="16" lean-forward="false" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/pages/Index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -686,18 +663,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scripts/main.js">
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="421" column="14" lean-forward="false" selection-start-line="421" selection-start-column="9" selection-end-line="421" selection-end-column="14" />
+        <state relative-caret-position="185">
+          <caret line="79" column="30" lean-forward="true" selection-start-line="79" selection-start-column="30" selection-end-line="79" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="81" lean-forward="false" selection-start-line="6" selection-start-column="81" selection-end-line="6" selection-end-column="81" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/pages/Index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="38" column="60" lean-forward="false" selection-start-line="38" selection-start-column="60" selection-end-line="38" selection-end-column="60" />
+        <state relative-caret-position="316">
+          <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/scripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="429" column="36" lean-forward="true" selection-start-line="429" selection-start-column="36" selection-end-line="429" selection-end-column="36" />
           <folding />
         </state>
       </provider>

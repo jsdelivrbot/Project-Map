@@ -334,11 +334,17 @@ function getPlacesDetails(marker, infowindow) {
         }
     });
 }
-
+var Choice = function(value, text){
+    this.val = value;
+    this.text = text;
+};
+var selectedOption = "foo";
 document.addEventListener("DOMContentLoaded", function () {
     viewModel = {
         Locations: ko.observableArray(),
-        out: ko.observable(false)
+        out: ko.observable(false),
+        Choices: ko.observableArray([new Choice("Casino|Food", "All"), new Choice("Casino", "Casino"), new Choice("Food", "Food")]),
+        selectedChoice: ko.observable("")
     };
     ko.applyBindings(viewModel);
 });
@@ -357,8 +363,7 @@ function getLocations() {
                     console.log("Locations request in progress, state:" + xhttp.readyState);
                     break;
                 case 4:
-                    try
-                    {
+                    try {
                         var data = JSON.parse(xhttp.responseText);
                         locations = data.locations;
                         styles = data.styles;
@@ -367,8 +372,7 @@ function getLocations() {
                         }
                         initMapInner();
                     }
-                    catch(e)
-                    {
+                    catch (e) {
                         alert("Server error:" + e);
                     }
                     break;
@@ -423,9 +427,8 @@ function cssIn(obj) {
     viewModel.out(false);
 }
 
-function filterListingsByType(init) {
-    var selectElement = document.getElementById("filterBy");
-    var optionValue = selectElement.options[selectElement.selectedIndex].value;
+function filterListingsByType(init){
+    var optionValue = viewModel.selectedChoice();
     for (let location of locations) {
         if (optionValue.indexOf(location.serviceType) !== -1 && viewModel.Locations.indexOf(location) === -1) {
             viewModel.Locations.push(location);
@@ -439,6 +442,7 @@ function filterListingsByType(init) {
         FilterMarkers(optionValue);
     }
 }
- function mapLoadError(){
+
+function mapLoadError() {
     alert("failed to load the map");
- }
+}
