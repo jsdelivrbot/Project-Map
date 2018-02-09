@@ -122,7 +122,7 @@ function initMapInner() {
         polygon.getPath().addListener('set_at', searchWithinPolygon);
         polygon.getPath().addListener('insert_at', searchWithinPolygon);
     });
-    filterListingsByType(true);
+    filterListingsByType(false);
     google.maps.event.addDomListener(window, 'resize', function () {
         map.fitBounds(bounds);
     });
@@ -437,7 +437,7 @@ function filterListingsByType(init){
         }
     }
 
-    if (!init) {
+    if (init) {
         showListings();
         FilterMarkers(optionValue);
     }
